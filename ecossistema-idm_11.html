@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=League+Gothic&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --orange:      #f99d35;
+  --dark-orange: #c45329;
+  --green:       #2e5a3d;
+  --cream:       #edf0ed;
+  --brown:       #2c221e;
+  --yellow:      #f2d06e;
+  --bg:          #f8f4ec;
+}
+
+body {
+  background: var(--bg);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+}
+
+.page {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: clamp(24px, 4vw, 52px) clamp(20px, 5vw, 64px);
+}
+
+/* ══════════════════════════════
+   HEADER
+══════════════════════════════ */
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: clamp(14px, 2vw, 20px);
+  border-bottom: 2.5px solid var(--green);
+  margin-bottom: clamp(24px, 3vw, 36px);
+  flex-wrap: wrap;
+}
+.header-eyebrow {
+  font-size: clamp(9px, 1.1vw, 11px);
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--green);
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+.header-title {
+  font-family: 'League Gothic', sans-serif;
+  font-size: clamp(48px, 7.5vw, 86px);
+  line-height: 0.9;
+  text-transform: uppercase;
+  color: var(--brown);
+  letter-spacing: 1px;
+}
+.header-title .accent       { color: var(--orange); }
+.header-title .accent-green { color: var(--green); }
+.header-right {
+  text-align: right;
+  max-width: 340px;
+  padding-bottom: 4px;
+}
+.header-tagline {
+  font-size: clamp(12px, 1.3vw, 14px);
+  color: var(--brown);
+  line-height: 1.7;
+  opacity: 0.72;
+  font-style: italic;
+}
+
+/* ══════════════════════════════
+   BODY
+══════════════════════════════ */
+.body {
+  display: flex;
+  gap: clamp(24px, 3vw, 44px);
+  align-items: flex-start;
+}
+
+/* ══════════════════════════════
+   DIAGRAM
+   ViewBox: "-130 -130 860 860"
+   Center original: (310,310)
+   CSS % = (coord + 130) / 860
+
+   Ecosystem circle: cx=310 cy=310 r=275
+   Pulse ring:       cx=310 cy=310 r=345
+
+   Inner nodes r=105 (⌀210 = 24.42% of 860):
+     Fundadores  (310,150): top=20.35% left=38.95%
+     Parceiros   (171,390): top=48.26% left=22.79%
+     Premiados   (449,390): top=48.26% left=55.12%
+   Juntos r=90 (⌀180 = 20.93%):
+     (310,310):             top=40.70% left=40.70%
+
+   Pulse nodes r=70 (⌀140 = 16.28%):
+     Nó de Encontro  (310,−35):  top=2.91%  left=43.02%
+     iDM em Movimento(609, 483): top=63.14% left=77.79%
+     Prêmio          ( 11, 483): top=63.14% left= 8.26%
+══════════════════════════════ */
+.diagram-section {
+  flex: 0 0 auto;
+  width: min(600px, 58%);
+  container-type: inline-size;
+}
+.diagram-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+.diagram-wrap svg.bg-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* ── Node base ── */
+.node {
+  position: absolute;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3cqi;           /* cqi = % of container WIDTH, same axis as width/height */
+  transition: transform 0.25s ease;
+  cursor: default;
+  opacity: 0;
+  animation: popIn 0.55s cubic-bezier(0.34,1.56,0.64,1) forwards;
+}
+.node:hover { transform: scale(1.06); z-index: 30; }
+
+.node-title {
+  font-family: 'League Gothic', sans-serif;
+  font-size: 2.6cqi;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.1;
+  margin-bottom: 0.4em;
+}
+.node-desc {
+  font-size: 1.6cqi;
+  line-height: 1.5;
+}
+
+/* ── Inner nodes ──
+   ⌀ 210/860 = 24.42cqi   (cqi keeps W = H referencing same container axis)
+   top/left in cqi = same as % but always relative to container WIDTH
+*/
+.fundadores {
+  width: 24.42cqi; height: 24.42cqi; z-index: 10;
+  top: 20.35cqi; left: 38.95cqi;
+  background: var(--orange); color: var(--brown);
+  box-shadow: 0 6px 28px rgba(249,157,53,0.4);
+  animation-delay: 0.3s;
+}
+.parceiros {
+  width: 24.42cqi; height: 24.42cqi; z-index: 10;
+  top: 48.26cqi; left: 22.79cqi;
+  background: var(--green); color: var(--cream);
+  box-shadow: 0 6px 28px rgba(46,90,61,0.4);
+  animation-delay: 0.5s;
+}
+.premiados {
+  width: 24.42cqi; height: 24.42cqi; z-index: 10;
+  top: 48.26cqi; left: 55.12cqi;
+  background: var(--dark-orange); color: var(--cream);
+  box-shadow: 0 6px 28px rgba(196,83,41,0.4);
+  animation-delay: 0.7s;
+}
+.juntos {
+  width: 20.93cqi; height: 20.93cqi; z-index: 15;
+  top: 40.70cqi; left: 40.70cqi;
+  background: var(--yellow); color: var(--brown);
+  animation-delay: 0.9s;
+}
+
+/* ── Pulse nodes (outer ring) ── ⌀ 140/860 = 16.28cqi */
+.pulse {
+  width: 16.28cqi; height: 16.28cqi; z-index: 10;
+  background: var(--bg);
+  border: 2.5px solid;
+  padding: 2.2cqi;
+}
+.pulse .node-title  { font-size: 1.55cqi; margin-bottom: 0.3em; }
+.pulse .pulse-label {
+  font-size: 1.05cqi;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.6;
+  line-height: 1.3;
+}
+
+.no-encontro {
+  top: 2.91cqi; left: 43.02cqi;
+  border-color: var(--brown); color: var(--brown);
+  animation-delay: 1.1s;
+}
+.idm-movimento {
+  top: 63.14cqi; left: 77.79cqi;
+  border-color: var(--orange); color: var(--brown);
+  animation-delay: 1.3s;
+}
+.premio {
+  top: 63.14cqi; left: 8.26cqi;
+  border-color: var(--dark-orange); color: var(--brown);
+  animation-delay: 1.5s;
+}
+
+/* ══════════════════════════════
+   RIGHT PANEL
+══════════════════════════════ */
+.right-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1.2vw, 14px);
+  padding-top: 8px;
+  min-width: 0;
+}
+
+.panel-intro {
+  padding: clamp(16px, 1.8vw, 22px);
+  background: var(--brown);
+  color: var(--cream);
+  border-radius: 14px;
+}
+.panel-intro h3 {
+  font-family: 'League Gothic', sans-serif;
+  font-size: clamp(18px, 2vw, 22px);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--yellow);
+  margin-bottom: 8px;
+}
+.panel-intro p { font-size: clamp(11px, 1.05vw, 13px); line-height: 1.75; opacity: 0.88; }
+.panel-intro strong { color: var(--orange); font-weight: 600; }
+
+/* ── Legend items (inner nodes) ── */
+.legend-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: clamp(10px, 1.2vw, 14px) clamp(12px, 1.4vw, 16px);
+  border-radius: 10px;
+  background: white;
+  border-left: 5px solid transparent;
+  transition: transform 0.2s ease;
+}
+.legend-item:hover { transform: translateX(4px); }
+.legend-dot {
+  width: clamp(24px, 2.5vw, 30px); height: clamp(24px, 2.5vw, 30px);
+  border-radius: 50%; flex-shrink: 0; margin-top: 2px;
+}
+.legend-item h4 {
+  font-family: 'League Gothic', sans-serif;
+  font-size: clamp(13px, 1.3vw, 15px);
+  text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 2px;
+}
+.legend-item p { font-size: clamp(10px, 0.95vw, 11.5px); color: var(--brown); opacity: 0.72; line-height: 1.6; }
+
+.li-fundadores { border-color: var(--orange); }
+.li-fundadores .legend-dot { background: var(--orange); }
+.li-fundadores h4 { color: var(--brown); }
+.li-parceiros  { border-color: var(--green); }
+.li-parceiros  .legend-dot { background: var(--green); }
+.li-parceiros  h4 { color: var(--green); }
+.li-premiados  { border-color: var(--dark-orange); }
+.li-premiados  .legend-dot { background: var(--dark-orange); }
+.li-premiados  h4 { color: var(--dark-orange); }
+.li-juntos     { border-color: var(--yellow); }
+.li-juntos     .legend-dot { background: var(--yellow); }
+.li-juntos     h4 { color: var(--brown); }
+
+/* ── Pulsos section ── */
+.pulsos-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0 2px;
+}
+.pulsos-divider span {
+  font-family: 'League Gothic', sans-serif;
+  font-size: clamp(13px, 1.3vw, 16px);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--brown);
+  opacity: 0.45;
+  white-space: nowrap;
+}
+.pulsos-divider::before,
+.pulsos-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--brown);
+  opacity: 0.15;
+}
+
+.pulso-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: clamp(10px, 1.2vw, 14px) clamp(12px, 1.4vw, 16px);
+  border-radius: 10px;
+  background: white;
+  border-left: 5px solid transparent;
+  transition: transform 0.2s ease;
+}
+.pulso-card:hover { transform: translateX(4px); }
+.pulso-dot {
+  width: clamp(24px, 2.5vw, 30px); height: clamp(24px, 2.5vw, 30px);
+  border-radius: 50%; flex-shrink: 0; margin-top: 2px;
+  border: 2.5px solid;
+  background: var(--bg);
+}
+.pulso-card h4 {
+  font-family: 'League Gothic', sans-serif;
+  font-size: clamp(13px, 1.3vw, 15px);
+  text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 1px;
+}
+.pulso-card .pulso-tipo {
+  font-size: clamp(9px, 0.85vw, 10.5px);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.5;
+  margin-bottom: 3px;
+  display: block;
+}
+.pulso-card p { font-size: clamp(10px, 0.95vw, 11.5px); color: var(--brown); opacity: 0.72; line-height: 1.6; }
+
+.pc-encontro  { border-color: var(--brown); }
+.pc-encontro  .pulso-dot { border-color: var(--brown); }
+.pc-encontro  h4 { color: var(--brown); }
+.pc-movimento { border-color: var(--orange); }
+.pc-movimento .pulso-dot { border-color: var(--orange); }
+.pc-movimento h4 { color: var(--dark-orange); }
+.pc-premio    { border-color: var(--dark-orange); }
+.pc-premio    .pulso-dot { border-color: var(--dark-orange); }
+.pc-premio    h4 { color: var(--dark-orange); }
+
+/* ══════════════════════════════
+   FOOTER
+══════════════════════════════ */
+.footer {
+  margin-top: clamp(24px, 3vw, 36px);
+  padding-top: clamp(14px, 2vw, 20px);
+  border-top: 1.5px solid rgba(44,34,30,0.15);
+  display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+}
+.footer-logo {
+  font-family: 'League Gothic', sans-serif;
+  font-size: clamp(32px, 4vw, 44px);
+  color: var(--orange); letter-spacing: 1px; line-height: 1; flex-shrink: 0;
+}
+.footer-logo span { color: var(--green); }
+.footer-text { font-size: clamp(10px, 1.1vw, 12px); color: var(--brown); opacity: 0.6; line-height: 1.6; }
+.footer-tags { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+.tag {
+  font-size: clamp(9px, 0.9vw, 11px); font-weight: 600;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 5px 11px; border-radius: 20px; color: white;
+}
+.tag-green  { background: var(--green); }
+.tag-orange { background: var(--orange); color: var(--brown); }
+
+/* ══════════════════════════════
+   ANIMATIONS
+══════════════════════════════ */
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.55); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.header      { animation: fadeUp 0.5s ease both; }
+.panel-intro { animation: fadeUp 0.5s 0.2s ease both; opacity: 0; animation-fill-mode: forwards; }
+.legend-item, .pulso-card {
+  opacity: 0; animation: fadeUp 0.4s ease forwards; animation-fill-mode: forwards;
+}
+.li-fundadores { animation-delay: 0.4s; }
+.li-parceiros  { animation-delay: 0.55s; }
+.li-premiados  { animation-delay: 0.7s; }
+.li-juntos     { animation-delay: 0.85s; }
+.pc-encontro   { animation-delay: 1.1s; }
+.pc-movimento  { animation-delay: 1.25s; }
+.pc-premio     { animation-delay: 1.4s; }
+
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
+@media (max-width: 900px) {
+  .body { flex-direction: column; align-items: center; }
+  .diagram-section { width: min(560px, 100%); }
+  .right-panel {
+    width: 100%; max-width: 680px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  }
+  .panel-intro, .pulsos-divider { grid-column: 1 / -1; }
+}
+@media (max-width: 560px) {
+  .header { flex-direction: column; align-items: flex-start; }
+  .header-right { max-width: 100%; text-align: left; }
+  .diagram-section { width: 100%; }
+  .right-panel { grid-template-columns: 1fr; }
+  .footer-tags { margin-left: 0; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="header-eyebrow">Instituto David Miranda</div>
+      <h1 class="header-title">
+        <span class="accent-green">Eco</span>ssistema<br>
+        <span class="accent">iDM</span>
+      </h1>
+    </div>
+    <div class="header-right">
+      <p class="header-tagline">
+        Uma rede viva de projetos, parceiros e pessoas<br>
+        conectados pela transformação social em favelas,<br>
+        periferias e comunidades do Rio de Janeiro.
+      </p>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- DIAGRAM -->
+    <div class="diagram-section">
+      <div class="diagram-wrap">
+
+        <!--
+          SVG viewBox "-130 -130 860 860"
+          Ecosystem circle: cx=310 cy=310 r=275
+          Pulse ring:       cx=310 cy=310 r=345
+        -->
+        <svg class="bg-layer" viewBox="-130 -130 860 860" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- Outer pulse ring -->
+          <circle cx="310" cy="310" r="345"
+            stroke="#2c221e" stroke-width="1.5"
+            stroke-dasharray="4 6" opacity="0.18"/>
+
+          <!-- Radial connectors: pulse ring edge to ecosystem circle edge -->
+          <!-- to Nó de Encontro (top, 270°) -->
+          <line x1="310" y1="-35" x2="310" y2="35"
+            stroke="#2c221e" stroke-width="1" stroke-dasharray="3 5" opacity="0.2"/>
+          <!-- to iDM em Movimento (30°) -->
+          <line x1="560" y1="460" x2="484" y2="416"
+            stroke="#f99d35" stroke-width="1" stroke-dasharray="3 5" opacity="0.25"/>
+          <!-- to Prêmio (150°) -->
+          <line x1="60" y1="460" x2="136" y2="416"
+            stroke="#c45329" stroke-width="1" stroke-dasharray="3 5" opacity="0.25"/>
+
+          <!-- Glow ring -->
+          <circle cx="310" cy="310" r="282"
+            fill="rgba(46,90,61,0.03)" stroke="rgba(46,90,61,0.08)" stroke-width="1"/>
+          <!-- Ecosystem circle -->
+          <circle cx="310" cy="310" r="275"
+            fill="rgba(237,240,237,0.35)"
+            stroke="#2e5a3d" stroke-width="2.5"
+            stroke-dasharray="6 3"/>
+
+          <!-- Connector lines: Juntos center → each inner node -->
+          <line x1="310" y1="310" x2="310" y2="150"
+            stroke="#c45329" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.3"/>
+          <line x1="310" y1="310" x2="171" y2="390"
+            stroke="#f99d35" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.3"/>
+          <line x1="310" y1="310" x2="449" y2="390"
+            stroke="#2e5a3d" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.3"/>
+
+          <!-- Dots at inner node centers -->
+          <circle cx="310" cy="150" r="4" fill="#c45329" opacity="0.45"/>
+          <circle cx="171" cy="390" r="4" fill="#f99d35" opacity="0.45"/>
+          <circle cx="449" cy="390" r="4" fill="#2e5a3d" opacity="0.45"/>
+
+        </svg>
+
+        <!-- NÓS FUNDADORES -->
+        <div class="node fundadores">
+          <div class="node-title">Nós Fundadores</div>
+          <p class="node-desc">Projetos que formam o núcleo original do Instituto, com gestão própria e apoio integral do iDM.</p>
+        </div>
+
+        <!-- NÓS PARCEIROS -->
+        <div class="node parceiros">
+          <div class="node-title">Nós Parceiros</div>
+          <p class="node-desc">Organizações aliadas apoiadas com recursos, espaço e visibilidade alinhadas aos valores do iDM.</p>
+        </div>
+
+        <!-- NÓS PREMIADOS -->
+        <div class="node premiados">
+          <div class="node-title">Nós Premiados</div>
+          <p class="node-desc">Projetos do Prêmio David Miranda com aporte financeiro e acompanhamento estratégico do Instituto.</p>
+        </div>
+
+        <!-- NÓS JUNTOS -->
+        <div class="node juntos">
+          <div class="node-title">Nós Juntos</div>
+          <p class="node-desc">O coração do ecossistema: projetos criados em parceria com gestão direta do iDM.</p>
+        </div>
+
+        <!-- ── PULSOS (anel externo) ── -->
+
+        <!-- NÓ DE ENCONTRO -->
+        <div class="node pulse no-encontro">
+          <div class="node-title">Nó de Encontro</div>
+          <div class="pulse-label">Pulso interno</div>
+        </div>
+
+        <!-- iDM EM MOVIMENTO -->
+        <div class="node pulse idm-movimento">
+          <div class="node-title">iDM em Movimento</div>
+          <div class="pulse-label">Pulso externo</div>
+        </div>
+
+        <!-- PRÊMIO DAVID MIRANDA -->
+        <div class="node pulse premio">
+          <div class="node-title">Prêmio David Miranda</div>
+          <div class="pulse-label">Pulso de renovação</div>
+        </div>
+
+      </div>
+    </div><!-- /diagram-section -->
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+
+      <div class="panel-intro">
+        <h3>O que é o<br>Ecossistema iDM?</h3>
+        <p>
+          O Ecossistema iDM é uma <strong>rede viva de impacto social</strong> no Estado do Rio de Janeiro. Com o Instituto David Miranda como <strong>polo articulador</strong>, conectamos fundadores, parceiros e projetos premiados num movimento coletivo de transformação.
+          <br><br>
+          Cada nó fortalece os demais, criando um ambiente próspero para a troca, cooperação e amplificação de impacto em favelas, periferias e comunidades do Rio de Janeiro.
+          <br><br>
+          Os <strong>Pulsos do iDM</strong> são os eventos que dão ritmo e vida ao ecossistema: momentos de encontro, expansão e renovação que mantêm a rede em movimento.
+        </p>
+      </div>
+
+      <div class="legend-item li-fundadores">
+        <div class="legend-dot"></div>
+        <div>
+          <h4>Nós Fundadores</h4>
+          <p>Instituições idealizadas por David Miranda com gestão própria e apoio integral do iDM. Formam o núcleo original e estruturante do Instituto.</p>
+        </div>
+      </div>
+
+      <div class="legend-item li-parceiros">
+        <div class="legend-dot"></div>
+        <div>
+          <h4>Nós Parceiros</h4>
+          <p>Projetos e organizações independentes apoiados com recursos, espaço e assessoria, com perspectiva de integração crescente ao ecossistema.</p>
+        </div>
+      </div>
+
+      <div class="legend-item li-premiados">
+        <div class="legend-dot"></div>
+        <div>
+          <h4>Nós Premiados</h4>
+          <p>Projetos contemplados pelo Prêmio David Miranda com aporte financeiro e acompanhamento estratégico. A porta de entrada para o ecossistema iDM.</p>
+        </div>
+      </div>
+
+      <div class="legend-item li-juntos">
+        <div class="legend-dot"></div>
+        <div>
+          <h4>Nós Juntos</h4>
+          <p>O ponto de convergência do ecossistema: projetos idealizados em parceria com gestão direta do iDM, integrando toda a rede por emendas, leis de incentivo e patrocínios.</p>
+        </div>
+      </div>
+
+      <!-- PULSOS -->
+      <div class="pulsos-divider"><span>Pulsos do iDM</span></div>
+
+      <div class="pulso-card pc-encontro">
+        <div class="pulso-dot"></div>
+        <div>
+          <span class="pulso-tipo">Pulso interno</span>
+          <h4>Nó de Encontro</h4>
+          <p>O espaço de fortalecimento interno da rede. Reúne projetos e pessoas para troca, formação e alinhamento por meio de workshops, oficinas e rodas de conversa entre os próprios nós do ecossistema.</p>
+        </div>
+      </div>
+
+      <div class="pulso-card pc-movimento">
+        <div class="pulso-dot"></div>
+        <div>
+          <span class="pulso-tipo">Pulso externo</span>
+          <h4>iDM em Movimento</h4>
+          <p>A cara do iDM para o mundo. Leva o Instituto a novos públicos por meio de apresentações artísticas, rodas de conversa abertas e eventos que convidam a comunidade externa a entrar em contato com o que o iDM representa.</p>
+        </div>
+      </div>
+
+      <div class="pulso-card pc-premio">
+        <div class="pulso-dot"></div>
+        <div>
+          <span class="pulso-tipo">Pulso de renovação</span>
+          <h4>Prêmio David Miranda</h4>
+          <p>O mecanismo pelo qual o ecossistema se renova. Reconhece e acolhe novos projetos de impacto social com aporte financeiro e acompanhamento estratégico, garantindo que a rede continue crescendo e gerando novos nós.</p>
+        </div>
+      </div>
+
+    </div><!-- /right-panel -->
+  </div><!-- /body -->
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-logo">i<span>DM</span></div>
+    <p class="footer-text">
+      Instituto David Miranda · Rio de Janeiro<br>
+      institutodavidmiranda.org
+    </p>
+    <div class="footer-tags">
+      <span class="tag tag-green">Polo Articulador</span>
+      <span class="tag tag-orange">Impacto Coletivo</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
