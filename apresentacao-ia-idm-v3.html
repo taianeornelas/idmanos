@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inteligência Artificial no iDM — 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=League+Gothic&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --laranja:#f99d35;--marrom:#2c221e;--verde:#2e5a3d;
+  --terracota:#c45329;--amarelo:#f2d06e;--offwhite:#edf0ed;--chumbo:#2e2e2e;
+}
+html,body{width:100%;height:100%;background:#111;font-family:'DM Sans',Arial,sans-serif;overflow:hidden;}
+
+/* NAV */
+#nav{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:14px;
+  background:rgba(44,34,30,0.93);border:1px solid rgba(249,157,53,0.3);
+  border-radius:40px;padding:9px 18px;z-index:100;
+}
+#nav button{
+  background:none;border:1.5px solid var(--laranja);color:var(--laranja);
+  border-radius:50%;width:34px;height:34px;font-size:15px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:background .15s;
+}
+#nav button:hover{background:rgba(249,157,53,.15);}
+#nav button:disabled{opacity:.3;cursor:default;}
+#slide-counter{font-size:12px;color:rgba(242,208,110,.8);min-width:52px;text-align:center;}
+.dot-nav{display:flex;gap:6px;align-items:center;}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(249,157,53,.3);cursor:pointer;transition:background .2s,transform .2s;}
+.dot.active{background:var(--laranja);transform:scale(1.3);}
+
+/* DECK */
+#deck{width:100vw;height:100vh;position:relative;overflow:hidden;}
+.slide{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  display:flex;flex-direction:column;
+  opacity:0;transform:translateX(50px);
+  transition:opacity .35s ease,transform .35s ease;pointer-events:none;
+}
+.slide.active{opacity:1;transform:translateX(0);pointer-events:all;}
+.slide.exit-left{opacity:0;transform:translateX(-50px);}
+
+/* SHARED */
+.s-header{
+  height:13%;background:var(--laranja);
+  display:flex;align-items:center;padding:0 3%;gap:14px;flex-shrink:0;overflow:hidden;
+}
+.s-header-title{
+  font-family:'League Gothic',sans-serif;
+  font-size:clamp(17px,2.5vw,30px);color:var(--marrom);letter-spacing:1px;
+}
+.s-footer{
+  height:5%;background:var(--marrom);
+  display:flex;align-items:center;padding:0 3%;flex-shrink:0;
+}
+.s-footer span{font-size:clamp(8px,.85vw,11px);color:var(--amarelo);opacity:.75;}
+.s-body{flex:1;padding:2% 3%;overflow:hidden;display:flex;flex-direction:column;}
+
+/* ── CAPA ── */
+#sl-capa{background:var(--marrom);flex-direction:row;}
+.capa-left{flex:1;padding:5% 6%;display:flex;flex-direction:column;justify-content:space-between;}
+.capa-logo .logo-img{
+  height:clamp(34px,4.8vw,58px);width:auto;
+  mix-blend-mode:screen;
+}
+.capa-titles{flex:1;display:flex;flex-direction:column;justify-content:center;}
+.capa-h1{font-family:'League Gothic',sans-serif;font-size:clamp(40px,7.5vw,88px);color:var(--laranja);line-height:.88;letter-spacing:1px;}
+.capa-h2{font-family:'League Gothic',sans-serif;font-size:clamp(40px,7.5vw,88px);color:var(--offwhite);line-height:.88;}
+.capa-h3{font-family:'League Gothic',sans-serif;font-size:clamp(24px,4.2vw,54px);color:var(--amarelo);margin-top:6px;}
+.capa-sub{font-size:clamp(10px,1.1vw,14px);color:rgba(237,240,237,.5);margin-top:12px;}
+.capa-credit{font-size:clamp(8px,.8vw,10px);color:rgba(237,240,237,.25);}
+.capa-right{width:20%;display:flex;flex-direction:column;}
+.capa-right-top{background:var(--laranja);flex:1.8;}
+.capa-right-bot{background:var(--terracota);flex:1;}
+
+/* ── FERRAMENTAS ── */
+#sl-tools{background:var(--offwhite);}
+.tools-cards{display:flex;gap:1%;height:50%;margin-bottom:2%;}
+.tool-card{flex:1;background:white;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;align-items:center;}
+.tool-rank{width:100%;padding:5% 0;font-family:'League Gothic',sans-serif;font-size:clamp(11px,1.5vw,18px);color:white;text-align:center;letter-spacing:1px;}
+.tool-icon{width:clamp(30px,4.2vw,50px);height:clamp(30px,4.2vw,50px);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(10px,1.4vw,17px);color:white;margin:5% 0 4%;}
+.tool-name{font-weight:700;font-size:clamp(9px,1.1vw,13px);color:var(--marrom);text-align:center;}
+.tool-org{font-size:clamp(7px,.85vw,10px);color:#888;margin-top:3px;}
+.cmp-table{flex:1;display:flex;flex-direction:column;gap:1.5px;overflow:hidden;}
+.t-row{display:grid;grid-template-columns:15% repeat(5,1fr);gap:1.5px;flex:1;}
+.tc{background:white;display:flex;align-items:center;padding:0 4%;font-size:clamp(7px,.82vw,10px);color:var(--chumbo);line-height:1.25;}
+.tc-head{background:var(--marrom);color:var(--amarelo);font-weight:700;}
+.tc-label{background:#e8ebe8;font-weight:700;color:var(--marrom);font-size:clamp(6px,.75vw,9px);}
+.tc-orange{color:var(--terracota);font-weight:700;}
+.tc-green{color:var(--verde);font-weight:700;}
+
+/* ── WORKSPACE ── */
+#sl-workspace{background:var(--offwhite);}
+.ws-orgs{display:grid;grid-template-columns:repeat(3,1fr);gap:2%;height:32%;margin-bottom:2%;}
+.org-card{border-radius:8px;padding:5% 6%;display:flex;flex-direction:column;justify-content:center;}
+.org-name{font-family:'League Gothic',sans-serif;font-size:clamp(20px,3.2vw,40px);color:white;letter-spacing:1px;line-height:1;}
+.org-emails{font-family:'League Gothic',sans-serif;font-size:clamp(16px,2.2vw,28px);color:rgba(255,255,255,.9);margin-top:4px;letter-spacing:.5px;}
+.org-desc{font-size:clamp(8px,.9vw,11px);color:rgba(255,255,255,.7);margin-top:3px;}
+.ws-banner{background:var(--amarelo);border-radius:6px;padding:2.2% 3%;margin-bottom:2%;font-size:clamp(8px,.95vw,11px);font-weight:700;color:var(--marrom);}
+.ws-benefits{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:3%;overflow:hidden;}
+.benefit-col{display:flex;flex-direction:column;gap:5px;}
+.b-item{display:flex;align-items:flex-start;gap:7px;font-size:clamp(7.5px,.9vw,10.5px);color:var(--chumbo);line-height:1.4;}
+.b-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+
+/* ── GEMINI CUSTO ── */
+#sl-gemini{background:var(--marrom);}
+.gem-layout{flex:1;display:grid;grid-template-columns:62% 38%;gap:3%;overflow:hidden;}
+.gem-left{display:flex;flex-direction:column;gap:3%;}
+.calc-title{font-family:'League Gothic',sans-serif;font-size:clamp(16px,2.2vw,26px);color:var(--laranja);letter-spacing:1px;}
+.calc-sub{font-size:clamp(10px,1.2vw,15px);color:var(--offwhite);}
+.calc-box{background:var(--terracota);border-radius:10px;padding:5% 7%;flex:1;display:flex;flex-direction:column;justify-content:center;}
+.calc-formula{font-family:'League Gothic',sans-serif;font-size:clamp(20px,3.2vw,40px);color:white;letter-spacing:1px;}
+.calc-result{font-family:'League Gothic',sans-serif;font-size:clamp(26px,4.2vw,52px);color:var(--amarelo);letter-spacing:1px;margin-top:3px;}
+.calc-equiv{font-size:clamp(8px,.95vw,11px);color:rgba(237,240,237,.65);font-style:italic;margin-top:5px;}
+.calc-note{font-size:clamp(8px,.95vw,11px);color:var(--amarelo);line-height:1.45;}
+.gem-right{background:var(--laranja);border-radius:10px;padding:6% 7%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:5%;}
+.g-badge{background:rgba(44,34,30,.18);border-radius:7px;padding:6% 8%;width:100%;}
+.g-badge-name{font-family:'League Gothic',sans-serif;font-size:clamp(14px,1.8vw,22px);color:var(--marrom);letter-spacing:1px;}
+.g-badge-sub{font-size:clamp(7px,.85vw,10px);color:rgba(44,34,30,.65);margin-top:3px;}
+.g-label{font-size:clamp(7px,.85vw,10px);color:rgba(44,34,30,.65);}
+.g-price{font-family:'League Gothic',sans-serif;font-size:clamp(36px,5.8vw,70px);color:var(--marrom);line-height:1;letter-spacing:1px;}
+.g-unit{font-size:clamp(8px,.9vw,11px);color:rgba(44,34,30,.75);}
+.g-old{font-size:clamp(7px,.85vw,10px);color:rgba(44,34,30,.45);text-decoration:line-through;}
+
+/* ── CLAUDE ── */
+#sl-claude{background:var(--verde);}
+.cl-layout{flex:1;display:grid;grid-template-columns:44% 56%;gap:3%;overflow:hidden;}
+.cl-left{background:var(--marrom);border-radius:10px;padding:5% 6%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:4%;}
+.cl-price{font-family:'League Gothic',sans-serif;font-size:clamp(52px,9vw,100px);color:var(--laranja);line-height:.9;letter-spacing:2px;}
+.cl-unit{font-size:clamp(9px,1.05vw,12px);color:rgba(237,240,237,.75);}
+.cl-compare{background:var(--amarelo);border-radius:7px;padding:5% 7%;width:100%;text-align:left;}
+.cl-row{font-size:clamp(7.5px,.9vw,10.5px);color:var(--chumbo);line-height:1.4;padding:2px 0;}
+.cl-right{background:var(--marrom);border-radius:10px;padding:5% 6%;display:flex;flex-direction:column;}
+.cl-right-title{font-family:'League Gothic',sans-serif;font-size:clamp(12px,1.7vw,20px);color:var(--laranja);letter-spacing:1px;margin-bottom:4%;}
+.team-rows{flex:1;display:flex;flex-direction:column;gap:3%;}
+.team-row{flex:1;display:grid;grid-template-columns:26% 74%;gap:3%;align-items:center;}
+.team-badge{height:100%;background:var(--laranja);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'League Gothic',sans-serif;font-size:clamp(9px,1.2vw,14px);color:var(--marrom);text-align:center;letter-spacing:.5px;padding:0 4%;}
+.team-desc{font-size:clamp(7.5px,.9vw,10.5px);color:rgba(237,240,237,.85);line-height:1.4;}
+.cl-banner{background:var(--laranja);border-radius:6px;padding:2.5% 4%;margin-top:3%;font-weight:700;font-size:clamp(7.5px,.95vw,11px);color:var(--marrom);text-align:center;}
+
+#hint{position:fixed;top:16px;right:20px;font-size:11px;color:rgba(237,240,237,.2);pointer-events:none;}
+</style>
+</head>
+<body>
+<div id="hint">← → navegar</div>
+<div id="deck">
+
+<!-- CAPA -->
+<div class="slide active" id="sl-capa">
+  <div class="capa-left">
+    <div class="capa-logo">
+      <img id="logo-master" class="logo-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACJYAAAJmCAYAAAAEz5iXAAEAAElEQVR4nOzdd5gcZZn+8e+pqp6eyZkMCUlIIIQkhN47SC+CgIBgFBEQkCIqCCoIFhCUoogoIiCiIqIiIiAiHQQEkd4JJIEQUkifPtM91e/vj+oZppghcIBJwv25rr27p7vm1KlTT1V13e/z7P/bwf9bX58GjjsOx5x6KkceeSSmXefQ9g5/5zscd9xxpA0PMqKc48wbbuDaa6+l2+liJE8hs4IKTBJFtJFZ1x27Z7gf/bAPHX3cwdF///6Xt/aDH/r5+75rHz5q3xHk5JFKPXT5lS+OkNHfz8O0/8iW7cW9gGpFCOEFVAuRIqWCbJBjPw9SGXZ9PYvvA7kNeGRqJdJj/xmDXF3BNGMbf7b8m5p3FUX+jFjBJI+KVqUgqSb4XSIFVbxCc0NniGxiPEBpFSRVoCSiSFvAKUxlDNBRDsHPXCWrOmhQe3oC1VIqokCqQI89ZHsUQPB6V7AFpAOoiuNjd6E0OmkJqnJbFp6sI6nA8mPzikAe0lFCZ4gqZ8RbsTAAAACCGdoAFAEAAAAASUVORK5CYII=" alt="Logo iDM">
+    </div>
+    <div class="capa-titles">
+      <div class="capa-h1">INTELIGÊNCIA</div>
+      <div class="capa-h2">ARTIFICIAL</div>
+      <div class="capa-h3">no iDM</div>
+      <div class="capa-sub">Captação e Projetos · 2026</div>
+    </div>
+    <div class="capa-credit">institutodavidmiranda.org</div>
+  </div>
+  <div class="capa-right">
+    <div class="capa-right-top"></div>
+    <div class="capa-right-bot"></div>
+  </div>
+</div>
+
+<!-- SLIDE 1: FERRAMENTAS -->
+<div class="slide" id="sl-tools">
+  <div class="s-header">
+    <div class="s-header-title">AS PRINCIPAIS FERRAMENTAS DE IA</div>
+  </div>
+  <div class="s-body">
+    <div class="tools-cards">
+      <div class="tool-card">
+        <div class="tool-rank" style="background:#10a37f;">1º lugar</div>
+        <div class="tool-icon" style="background:#10a37f;">GP</div>
+        <div class="tool-name">ChatGPT</div><div class="tool-org">OpenAI</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-rank" style="background:#4285F4;">2º lugar</div>
+        <div class="tool-icon" style="background:#4285F4;">G</div>
+        <div class="tool-name">Gemini</div><div class="tool-org">Google</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-rank" style="background:#c45329;">3º lugar</div>
+        <div class="tool-icon" style="background:#c45329;">Cl</div>
+        <div class="tool-name">Claude</div><div class="tool-org">Anthropic</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-rank" style="background:#1a73e8;">4º lugar</div>
+        <div class="tool-icon" style="background:#1a73e8;font-size:clamp(8px,1vw,11px);">NLM</div>
+        <div class="tool-name">NotebookLM</div><div class="tool-org">Google</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-rank" style="background:#1a1a2e;">5º lugar</div>
+        <div class="tool-icon" style="background:#1a1a2e;">Mn</div>
+        <div class="tool-name">Manus</div><div class="tool-org">Monica AI</div>
+      </div>
+    </div>
+    <div class="cmp-table">
+      <div class="t-row">
+        <div class="tc tc-head">Critério</div><div class="tc tc-head">ChatGPT</div>
+        <div class="tc tc-head">Gemini</div><div class="tc tc-head">Claude</div>
+        <div class="tc tc-head">NotebookLM</div><div class="tc tc-head">Manus</div>
+      </div>
+      <div class="t-row">
+        <div class="tc tc-label">Plano gratuito</div>
+        <div class="tc">Sim (limitado)</div><div class="tc">Sim (limitado)</div>
+        <div class="tc">Sim (limitado)</div><div class="tc">Sim</div><div class="tc">Sim (limitado)</div>
+      </div>
+      <div class="t-row">
+        <div class="tc tc-label">Preço mensal</div>
+        <div class="tc">US$ 20 / Plus</div><div class="tc tc-orange">US$ 4,20 / user</div>
+        <div class="tc tc-green">US$ 8 / Nonprofit</div><div class="tc">Grátis c/ Google</div><div class="tc">US$ 39 / Pro</div>
+      </div>
+      <div class="t-row">
+        <div class="tc tc-label">Direitos de uso</div>
+        <div class="tc">Comercial OK</div><div class="tc">Comercial OK</div>
+        <div class="tc">Comercial OK</div><div class="tc">Pessoal / org</div><div class="tc">Pessoal / org</div>
+      </div>
+      <div class="t-row">
+        <div class="tc tc-label">Destaque</div>
+        <div class="tc">Popular, plugins, imagens</div><div class="tc">Integrado ao Workspace</div>
+        <div class="tc">Raciocínio avançado, redação</div><div class="tc">Pesquisa em docs próprios</div>
+        <div class="tc">Agente autônomo, multitarefas</div>
+      </div>
+    </div>
+  </div>
+  <div class="s-footer"><span>Instituto David Miranda · institutodavidmiranda.org</span></div>
+</div>
+
+<!-- SLIDE 2: WORKSPACE -->
+<div class="slide" id="sl-workspace">
+  <div class="s-header">
+    <div class="s-header-title">GOOGLE WORKSPACE FOR NONPROFITS NO iDM</div>
+  </div>
+  <div class="s-body">
+    <div class="ws-orgs">
+      <div class="org-card" style="background:var(--laranja);">
+        <div class="org-name">iDM</div>
+        <div class="org-emails">25 e-mails</div>
+        <div class="org-desc">Instituto David Miranda</div>
+      </div>
+      <div class="org-card" style="background:var(--verde);">
+        <div class="org-name">Crescer</div>
+        <div class="org-emails">20 e-mails</div>
+        <div class="org-desc">Projeto Crescer · Jacarezinho</div>
+      </div>
+      <div class="org-card" style="background:var(--terracota);">
+        <div class="org-name">Hope</div>
+        <div class="org-emails">7 e-mails</div>
+        <div class="org-desc">Abrigo Hope · Proteção Animal</div>
+      </div>
+    </div>
+    <div class="ws-banner">Futuro: disponibilizar o Workspace como benefício para Nós Parceiros e Nós Premiados com CNPJ</div>
+    <div class="ws-benefits">
+      <div class="benefit-col">
+        <div class="b-item"><div class="b-dot" style="background:var(--laranja);"></div><span>E-mail institucional profissional (@institutodavidmiranda.org)</span></div>
+        <div class="b-item"><div class="b-dot" style="background:var(--laranja);"></div><span>Google Drive compartilhado com 30 GB por usuário</span></div>
+        <div class="b-item"><div class="b-dot" style="background:var(--laranja);"></div><span>Google Meet ilimitado para reuniões e transmissões</span></div>
+        <div class="b-item"><div class="b-dot" style="background:var(--laranja);"></div><span>Google Forms, Planilhas e Documentos colaborativos</span></div>
+      </div>
+      <div class="benefit-col">
+        <div class="b-item"><div class="b-dot" style="background:var(--verde);"></div><span><strong>Gemini e NotebookLM disponíveis quando LOGADOS</strong> — seus dados não são usados para treinar a IA</span></div>
+        <div class="b-item"><div class="b-dot" style="background:var(--verde);"></div><span>Ao lidar com dados sensíveis de projetos e captação, <strong>use sempre a conta Workspace</strong></span></div>
+        <div class="b-item"><div class="b-dot" style="background:var(--verde);"></div><span>NotebookLM: ideal para pesquisa interna em documentos institucionais</span></div>
+        <div class="b-item"><div class="b-dot" style="background:var(--verde);"></div><span>Gemini: assistente integrado ao Gmail, Drive, Docs e Meet</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="s-footer"><span>Instituto David Miranda · institutodavidmiranda.org</span></div>
+</div>
+
+<!-- SLIDE 3: GEMINI CUSTO -->
+<div class="slide" id="sl-gemini">
+  <div class="s-header">
+    <div class="s-header-title">GEMINI PARA TODO O TIME: O CUSTO</div>
+  </div>
+  <div class="s-body" style="flex-direction:row;gap:3%;padding-top:3%;">
+    <div class="gem-left">
+      <div class="calc-title">O CÁLCULO</div>
+      <div class="calc-sub">25 usuários no iDM</div>
+      <div class="calc-box">
+        <div class="calc-formula">25 × US$ 4,20</div>
+        <div class="calc-result">= US$ 105,00 / mês</div>
+        <div class="calc-equiv">equivalente a aprox. R$ 600/mês para toda a equipe</div>
+      </div>
+      <div class="calc-note">O curso IA.3 recomenda o Gemini — mas há uma opção com melhor custo-benefício para o iDM.</div>
+    </div>
+    <div class="gem-right">
+      <div class="g-badge">
+        <div class="g-badge-name">GEMINI</div>
+        <div class="g-badge-sub">Google Workspace Business Standard</div>
+      </div>
+      <div class="g-label">A partir de</div>
+      <div class="g-price">US$ 4,20</div>
+      <div class="g-unit">/usuário/mês</div>
+      <div class="g-old">antes US$ 16,80</div>
+    </div>
+  </div>
+  <div class="s-footer"><span>Instituto David Miranda · institutodavidmiranda.org</span></div>
+</div>
+
+<!-- SLIDE 4: CLAUDE NONPROFITS -->
+<div class="slide" id="sl-claude">
+  <div class="s-header">
+    <div class="s-header-title">CLAUDE FOR NONPROFITS VIA GOODSTACK</div>
+  </div>
+  <div class="s-body" style="flex-direction:row;gap:3%;padding-top:3%;">
+    <div class="cl-left">
+      <div class="cl-price">US$ 8</div>
+      <div class="cl-unit">por usuário/mês (via GoodStack)</div>
+      <div class="cl-compare">
+        <div class="cl-row"><strong style="color:var(--terracota);">Gemini:</strong> 25 × US$4,20 = US$105/mês</div>
+        <div class="cl-row" style="margin-top:5px;"><strong style="color:var(--verde);">Claude:</strong> apenas 3 users = US$24/mês</div>
+      </div>
+    </div>
+    <div class="cl-right">
+      <div class="cl-right-title">QUEM MAIS SE BENEFICIA:</div>
+      <div class="team-rows">
+        <div class="team-row">
+          <div class="team-badge">CAPTAÇÃO</div>
+          <div class="team-desc">Pesquisa de editais, elaboração de propostas, abordagem de parceiros</div>
+        </div>
+        <div class="team-row">
+          <div class="team-badge">PROJETOS</div>
+          <div class="team-desc">Análise de documentos, relatórios, planejamento estratégico</div>
+        </div>
+        <div class="team-row">
+          <div class="team-badge">COMUNI&shy;CAÇÃO</div>
+          <div class="team-desc">Textos, posts, press releases, roteiros, campanhas</div>
+        </div>
+      </div>
+      <div class="cl-banner">Não é necessário comprar para todos — uma licença por equipe já gera impacto real.</div>
+    </div>
+  </div>
+  <div class="s-footer"><span>Instituto David Miranda · institutodavidmiranda.org</span></div>
+</div>
+
+</div><!-- /deck -->
+
+<div id="nav">
+  <button id="btn-prev" disabled onclick="go(-1)">&#8592;</button>
+  <div class="dot-nav" id="dots"></div>
+  <span id="slide-counter">1 / 5</span>
+  <button id="btn-next" onclick="go(1)">&#8594;</button>
+</div>
+
+<script>
+const slides=document.querySelectorAll('.slide');
+const dotsEl=document.getElementById('dots');
+const counter=document.getElementById('slide-counter');
+const btnPrev=document.getElementById('btn-prev');
+const btnNext=document.getElementById('btn-next');
+let cur=0;
+slides.forEach((_,i)=>{
+  const d=document.createElement('div');
+  d.className='dot'+(i===0?' active':'');
+  d.onclick=()=>goTo(i);
+  dotsEl.appendChild(d);
+});
+function goTo(n){
+  if(n===cur)return;
+  const leaving=slides[cur];
+  leaving.classList.remove('active');
+  leaving.classList.add('exit-left');
+  setTimeout(()=>leaving.classList.remove('exit-left'),400);
+  cur=n;
+  slides[cur].classList.add('active');
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===cur));
+  counter.textContent=(cur+1)+' / '+slides.length;
+  btnPrev.disabled=cur===0;
+  btnNext.disabled=cur===slides.length-1;
+}
+function go(dir){goTo(Math.max(0,Math.min(slides.length-1,cur+dir)));}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown')go(1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp')go(-1);
+});
+</script>
+</body>
+</html>
