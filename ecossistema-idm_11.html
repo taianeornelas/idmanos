@@ -169,6 +169,8 @@ body {
   background: var(--green); color: var(--cream);
   box-shadow: 0 6px 28px rgba(46,90,61,0.4);
   animation-delay: 0.5s;
+  justify-content: flex-end;
+  padding-bottom: 5cqi;
 }
 .premiados {
   width: 24.42cqi; height: 24.42cqi; z-index: 10;
@@ -176,6 +178,8 @@ body {
   background: var(--dark-orange); color: var(--cream);
   box-shadow: 0 6px 28px rgba(196,83,41,0.4);
   animation-delay: 0.7s;
+  justify-content: flex-end;
+  padding-bottom: 5cqi;
 }
 .juntos {
   width: 20.93cqi; height: 20.93cqi; z-index: 15;
@@ -187,35 +191,45 @@ body {
 /* ── Pulse nodes (outer ring) ── ⌀ 140/860 = 16.28cqi */
 .pulse {
   width: 16.28cqi; height: 16.28cqi; z-index: 10;
-  background: var(--bg);
-  border: 2.5px solid;
+  border: none;
   padding: 2.2cqi;
 }
-.pulse .node-title  { font-size: 1.55cqi; margin-bottom: 0.3em; }
+.pulse .node-title  { font-size: 2.7cqi; margin-bottom: 0.35em; }
 .pulse .pulse-label {
-  font-size: 1.05cqi;
+  font-size: 1.6cqi;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  opacity: 0.6;
+  opacity: 0.75;
   line-height: 1.3;
 }
 
-.no-encontro {
-  top: 2.91cqi; left: 43.02cqi;
-  border-color: var(--brown); color: var(--brown);
-  animation-delay: 1.1s;
-}
-.idm-movimento {
-  top: 63.14cqi; left: 77.79cqi;
-  border-color: var(--orange); color: var(--brown);
-  animation-delay: 1.3s;
-}
+/* Prêmio: top — maior prestígio, posição de destaque */
 .premio {
-  top: 63.14cqi; left: 8.26cqi;
-  border-color: var(--dark-orange); color: var(--brown);
+  top: 2.91cqi; left: 43.02cqi;
+  background: #de4c3b; color: var(--cream);
+  box-shadow: 0 6px 24px rgba(222,76,59,0.35);
   animation-delay: 1.5s;
 }
+.premio .pulse-label { opacity: 0.6; }
+
+/* Nó de Encontro: lado esquerdo */
+.no-encontro {
+  top: 43.02cqi; left: 2.91cqi;
+  background: var(--yellow); color: var(--brown);
+  box-shadow: 0 6px 24px rgba(242,208,110,0.4);
+  animation-delay: 1.1s;
+}
+.no-encontro .pulse-label { opacity: 0.7; }
+
+/* iDM em Movimento: lado direito */
+.idm-movimento {
+  top: 43.02cqi; left: 83.14cqi;
+  background: var(--orange); color: var(--brown);
+  box-shadow: 0 6px 24px rgba(249,157,53,0.4);
+  animation-delay: 1.3s;
+}
+.idm-movimento .pulse-label { opacity: 0.65; }
 
 /* ══════════════════════════════
    RIGHT PANEL
@@ -460,16 +474,16 @@ body {
             stroke="#2c221e" stroke-width="1.5"
             stroke-dasharray="4 6" opacity="0.18"/>
 
-          <!-- Radial connectors: pulse ring edge to ecosystem circle edge -->
-          <!-- to Nó de Encontro (top, 270°) -->
-          <line x1="310" y1="-35" x2="310" y2="35"
+          <!-- Radial connectors: eco circle edge → pulse ring edge -->
+          <!-- to Prêmio (top) -->
+          <line x1="310" y1="35" x2="310" y2="-35"
             stroke="#2c221e" stroke-width="1" stroke-dasharray="3 5" opacity="0.2"/>
-          <!-- to iDM em Movimento (30°) -->
-          <line x1="560" y1="460" x2="484" y2="416"
+          <!-- to Nó de Encontro (left) -->
+          <line x1="35" y1="310" x2="-35" y2="310"
+            stroke="#2e5a3d" stroke-width="1" stroke-dasharray="3 5" opacity="0.25"/>
+          <!-- to iDM em Movimento (right) -->
+          <line x1="585" y1="310" x2="655" y2="310"
             stroke="#f99d35" stroke-width="1" stroke-dasharray="3 5" opacity="0.25"/>
-          <!-- to Prêmio (150°) -->
-          <line x1="60" y1="460" x2="136" y2="416"
-            stroke="#c45329" stroke-width="1" stroke-dasharray="3 5" opacity="0.25"/>
 
           <!-- Glow ring -->
           <circle cx="310" cy="310" r="282"
@@ -503,13 +517,13 @@ body {
 
         <!-- NÓS PARCEIROS -->
         <div class="node parceiros">
-          <div class="node-title">Nós Parceiros</div>
+          <div class="node-title">Nós<br>Parceiros</div>
           <p class="node-desc">Organizações aliadas apoiadas com recursos, espaço e visibilidade alinhadas aos valores do iDM.</p>
         </div>
 
         <!-- NÓS PREMIADOS -->
         <div class="node premiados">
-          <div class="node-title">Nós Premiados</div>
+          <div class="node-title">Nós<br>Premiados</div>
           <p class="node-desc">Projetos do Prêmio David Miranda com aporte financeiro e acompanhamento estratégico do Instituto.</p>
         </div>
 
@@ -633,6 +647,10 @@ body {
       <span class="tag tag-orange">Impacto Coletivo</span>
     </div>
   </div>
+
+</div>
+</body>
+</html>
 
 </div>
 </body>
