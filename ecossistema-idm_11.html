@@ -191,12 +191,13 @@ body {
 /* ── Pulse nodes (outer ring) ── ⌀ 140/860 = 16.28cqi */
 .pulse {
   width: 16.28cqi; height: 16.28cqi; z-index: 10;
-  border: none;
+  background: var(--bg);
+  border: 2.5px solid;
   padding: 2.2cqi;
 }
 .pulse .node-title  { font-size: 2.7cqi; margin-bottom: 0.35em; }
 .pulse .pulse-label {
-  font-size: 1.6cqi;
+  font-size: 1.2cqi;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -204,32 +205,26 @@ body {
   line-height: 1.3;
 }
 
-/* Prêmio: top — maior prestígio, posição de destaque */
+/* Prêmio: topo */
 .premio {
   top: 2.91cqi; left: 43.02cqi;
-  background: #de4c3b; color: var(--cream);
-  box-shadow: 0 6px 24px rgba(222,76,59,0.35);
+  border-color: #de4c3b; color: #de4c3b;
   animation-delay: 1.5s;
 }
-.premio .pulse-label { opacity: 0.6; }
 
-/* Nó de Encontro: lado esquerdo */
+/* Nó de Encontro: esquerda */
 .no-encontro {
   top: 43.02cqi; left: 2.91cqi;
-  background: var(--yellow); color: var(--brown);
-  box-shadow: 0 6px 24px rgba(242,208,110,0.4);
+  border-color: #c9a625; color: #c9a625;
   animation-delay: 1.1s;
 }
-.no-encontro .pulse-label { opacity: 0.7; }
 
-/* iDM em Movimento: lado direito */
+/* iDM em Movimento: direita */
 .idm-movimento {
   top: 43.02cqi; left: 83.14cqi;
-  background: var(--orange); color: var(--brown);
-  box-shadow: 0 6px 24px rgba(249,157,53,0.4);
+  border-color: var(--green); color: var(--green);
   animation-delay: 1.3s;
 }
-.idm-movimento .pulse-label { opacity: 0.65; }
 
 /* ══════════════════════════════
    RIGHT PANEL
@@ -647,10 +642,6 @@ body {
       <span class="tag tag-orange">Impacto Coletivo</span>
     </div>
   </div>
-
-</div>
-</body>
-</html>
 
 </div>
 </body>
