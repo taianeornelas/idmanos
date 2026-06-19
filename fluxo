@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluxo de Trabalho — Instituto David Miranda 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=League+Gothic&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --laranja: #f99d35;
+  --terracota: #c45329;
+  --verde: #2e5a3d;
+  --vermelho: #de4c3b;
+  --amarelo: #f2d06e;
+  --cream: #edf0ed;
+  --brown: #2c221e;
+  --col1: #c45329;
+  --col2: #2e5a3d;
+  --col3: #f99d35;
+  --col4: #8b4e9e;
+  --col5: #d4a820;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', Arial, sans-serif;
+  background: var(--brown);
+  color: var(--cream);
+  min-height: 100vh;
+}
+
+/* HEADER */
+.header {
+  background: var(--brown);
+  padding: 32px 40px 24px;
+  border-bottom: 2px solid rgba(249,157,53,.2);
+}
+
+.header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.header h1 {
+  font-family: 'League Gothic', 'Arial Black', sans-serif;
+  font-size: 52px;
+  line-height: 1;
+  color: var(--laranja);
+  letter-spacing: .01em;
+  text-transform: uppercase;
+}
+
+.header h1 span {
+  display: block;
+  font-size: 28px;
+  color: var(--amarelo);
+  letter-spacing: .04em;
+}
+
+.header-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.badge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(249,157,53,.15);
+  border: 1px solid rgba(249,157,53,.35);
+  color: var(--laranja);
+}
+
+.header-sub {
+  font-size: 13px;
+  color: rgba(237,240,237,.5);
+  margin-top: 10px;
+}
+
+/* LEGEND */
+.legend {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 16px 40px;
+  background: rgba(0,0,0,.2);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+
+.leg {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11.5px;
+  color: rgba(237,240,237,.7);
+  font-weight: 500;
+}
+
+.leg-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* MATRIX */
+.matrix-wrap {
+  padding: 24px 20px 40px;
+  overflow-x: auto;
+}
+
+.matrix {
+  display: grid;
+  grid-template-columns: 148px repeat(5, 1fr);
+  min-width: 900px;
+  gap: 3px;
+}
+
+/* OBJECTIVE HEADERS */
+.obj-header-spacer {
+  background: transparent;
+}
+
+.obj-header {
+  border-radius: 10px 10px 0 0;
+  padding: 14px 14px 12px;
+  text-align: center;
+  position: relative;
+}
+
+.obj-num {
+  font-family: 'League Gothic', 'Arial Black', sans-serif;
+  font-size: 38px;
+  line-height: 1;
+  opacity: .25;
+  position: absolute;
+  top: 8px;
+  left: 12px;
+}
+
+.obj-title {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  padding-top: 4px;
+}
+
+.obj1 { background: rgba(196,83,41,.25); border-top: 2px solid var(--col1); }
+.obj2 { background: rgba(46,90,61,.25);  border-top: 2px solid var(--col2); }
+.obj3 { background: rgba(249,157,53,.2); border-top: 2px solid var(--col3); }
+.obj4 { background: rgba(139,78,158,.2); border-top: 2px solid var(--col4); }
+.obj5 { background: rgba(212,168,32,.2); border-top: 2px solid var(--col5); }
+
+.obj1 .obj-title { color: #f0997b; }
+.obj2 .obj-title { color: #9FE1CB; }
+.obj3 .obj-title { color: var(--laranja); }
+.obj4 .obj-title { color: #c898e0; }
+.obj5 .obj-title { color: var(--amarelo); }
+
+/* AREA LABELS */
+.area-label {
+  display: flex;
+  align-items: center;
+  padding: 12px 10px;
+  border-radius: 8px;
+  background: rgba(255,255,255,.04);
+  border-left: 3px solid transparent;
+}
+
+.area-label-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.area-name {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.area-sub {
+  font-size: 10px;
+  opacity: .55;
+  line-height: 1.3;
+}
+
+.al-proj  { border-color: var(--col2); }
+.al-cap   { border-color: var(--col3); }
+.al-mkt   { border-color: var(--col1); }
+.al-dados { border-color: var(--col5); }
+
+.al-proj  .area-name { color: #9FE1CB; }
+.al-cap   .area-name { color: var(--laranja); }
+.al-mkt   .area-name { color: #f0997b; }
+.al-dados .area-name { color: var(--amarelo); }
+
+/* CELLS */
+.cell {
+  background: rgba(255,255,255,.03);
+  border-radius: 8px;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 90px;
+}
+
+.cell.empty {
+  background: rgba(255,255,255,.015);
+  justify-content: center;
+  align-items: center;
+}
+
+.cell.empty span {
+  font-size: 18px;
+  opacity: .12;
+}
+
+/* STEPS inside cell */
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.step-node {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  position: relative;
+}
+
+.step-node:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 22px;
+  width: 1px;
+  height: calc(100% + 2px);
+  background: rgba(255,255,255,.12);
+}
+
+.step-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 700;
+  margin-top: 1px;
+  position: relative;
+  z-index: 1;
+}
+
+.step-text {
+  font-size: 11px;
+  line-height: 1.4;
+  color: rgba(237,240,237,.8);
+  padding-top: 1px;
+}
+
+.step-text strong {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: rgba(237,240,237,.95);
+  margin-bottom: 1px;
+}
+
+/* Dot colors per objective */
+.d1 { background: rgba(196,83,41,.4); color: #f0997b; border: 1px solid rgba(196,83,41,.6); }
+.d2 { background: rgba(46,90,61,.5);  color: #9FE1CB; border: 1px solid rgba(46,90,61,.7); }
+.d3 { background: rgba(249,157,53,.3); color: var(--laranja); border: 1px solid rgba(249,157,53,.5); }
+.d4 { background: rgba(139,78,158,.35); color: #c898e0; border: 1px solid rgba(139,78,158,.55); }
+.d5 { background: rgba(212,168,32,.3); color: var(--amarelo); border: 1px solid rgba(212,168,32,.5); }
+
+/* SHARED planning row */
+.shared-row {
+  grid-column: 1 / -1;
+  background: rgba(249,157,53,.07);
+  border: 1px solid rgba(249,157,53,.2);
+  border-radius: 10px;
+  padding: 14px 20px;
+  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.shared-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(249,157,53,.2);
+  border: 1.5px solid rgba(249,157,53,.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.shared-content {}
+
+.shared-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--laranja);
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.shared-desc {
+  font-size: 11.5px;
+  color: rgba(237,240,237,.6);
+  line-height: 1.45;
+}
+
+.shared-areas {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+.shared-pill {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.sp-proj  { background: rgba(46,90,61,.3);   color: #9FE1CB; border: 1px solid rgba(46,90,61,.5); }
+.sp-cap   { background: rgba(249,157,53,.2); color: var(--laranja); border: 1px solid rgba(249,157,53,.4); }
+.sp-mkt   { background: rgba(196,83,41,.25); color: #f0997b; border: 1px solid rgba(196,83,41,.4); }
+.sp-dados { background: rgba(212,168,32,.2); color: var(--amarelo); border: 1px solid rgba(212,168,32,.4); }
+
+/* FOOTER */
+.footer {
+  padding: 20px 40px;
+  border-top: 1px solid rgba(255,255,255,.07);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.footer-brand {
+  font-family: 'League Gothic', 'Arial Black', sans-serif;
+  font-size: 22px;
+  color: var(--laranja);
+  letter-spacing: .06em;
+}
+
+.footer-note {
+  font-size: 11px;
+  color: rgba(237,240,237,.3);
+}
+
+@media (max-width: 700px) {
+  .header { padding: 20px; }
+  .header h1 { font-size: 36px; }
+  .matrix-wrap { padding: 12px 8px 32px; }
+  .legend { padding: 12px 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div>
+      <h1>Fluxo de Trabalho<span>Instituto David Miranda · 2026</span></h1>
+      <p class="header-sub">Objetivos estratégicos × áreas de atuação</p>
+    </div>
+    <div class="header-meta">
+      <span class="badge">2026</span>
+      <span class="badge" style="margin-top:4px">5 objetivos · 4 áreas</span>
+    </div>
+  </div>
+</div>
+
+<div class="legend">
+  <div class="leg"><span class="leg-dot" style="background:#9FE1CB"></span>Projetos</div>
+  <div class="leg"><span class="leg-dot" style="background:#f99d35"></span>Captação</div>
+  <div class="leg"><span class="leg-dot" style="background:#f0997b"></span>Mkt &amp; Comunicação</div>
+  <div class="leg"><span class="leg-dot" style="background:#f2d06e"></span>Dados &amp; Informação</div>
+  <div class="leg" style="margin-left:auto">
+    <span style="width:22px;height:1px;border-top:1px dashed rgba(255,255,255,.3);display:inline-block"></span>
+    <span>linha de etapas</span>
+  </div>
+</div>
+
+<div class="matrix-wrap">
+  <div class="matrix">
+
+    <!-- SHARED PLANNING ROW -->
+    <div class="shared-row">
+      <div class="shared-icon">◎</div>
+      <div class="shared-content">
+        <div class="shared-title">Planejamento conjunto</div>
+        <div class="shared-desc">Todas as áreas alinham objetivos, calendário e demandas antes de qualquer desenvolvimento</div>
+      </div>
+      <div class="shared-areas">
+        <span class="shared-pill sp-proj">Projetos</span>
+        <span class="shared-pill sp-cap">Captação</span>
+        <span class="shared-pill sp-mkt">Mkt &amp; Com.</span>
+        <span class="shared-pill sp-dados">Dados</span>
+      </div>
+    </div>
+
+    <!-- OBJECTIVE HEADERS -->
+    <div class="obj-header-spacer"></div>
+
+    <div class="obj-header obj1">
+      <div class="obj-num">1</div>
+      <div class="obj-title">Fortalecer e ampliar o Prêmio David Miranda</div>
+    </div>
+
+    <div class="obj-header obj2">
+      <div class="obj-num">2</div>
+      <div class="obj-title">Estruturar e fortalecer o Ecossistema de Projetos</div>
+    </div>
+
+    <div class="obj-header obj3">
+      <div class="obj-num">3</div>
+      <div class="obj-title">Ampliar Captação, Articulação e Sustentabilidade</div>
+    </div>
+
+    <div class="obj-header obj4">
+      <div class="obj-num">4</div>
+      <div class="obj-title">Consolidar o iDM como Hub de Projetos Sociais</div>
+    </div>
+
+    <div class="obj-header obj5">
+      <div class="obj-num">5</div>
+      <div class="obj-title">Produzir Inteligência de Dados</div>
+    </div>
+
+    <!-- ===== ROW: PROJETOS ===== -->
+    <div class="area-label al-proj">
+      <div class="area-label-inner">
+        <div class="area-name">Projetos</div>
+        <div class="area-sub">Nós + ecossistema</div>
+      </div>
+    </div>
+
+    <!-- Projetos × Obj1: Prêmio -->
+    <div class="cell">
+      <div class="steps">
+        <div class="step-node">
+          <div class="step-dot d1">1</div>
+          <div class="step-text"><strong>Curadoria</strong>Seleciona projetos finalistas</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d1">2</div>
+          <div class="step-text"><strong>Acompanhamento</strong>Suporte aos inscritos</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d1">3</div>
+          <div class="step-text"><strong>Integração</strong>Premiados viram Nós</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projetos × Obj2: Ecossistema -->
+    <div class="cell">
+      <div class="steps">
+        <div class="step-node">
+          <div class="step-dot d2">1</div>
+          <div class="step-text"><strong>Gestão dos Nós</strong>Fund., Parceiros, Juntos</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d2">2</div>
+          <div class="step-text"><strong>Coleta indicadores</strong>Relatórios periódicos</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d2">3</div>
+          <div class="step-text"><strong>Aval. estratégica</strong>Evolução por categoria</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d2">4</div>
+          <div class="step-text"><strong>Rel. externos</strong>Poder público e parceiros</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projetos × Obj3: Captação -->
+    <div class="cell">
+      <div class="steps">
+        <div class="step-node">
+          <div class="step-dot d3">1</div>
+          <div class="step-text"><strong>Certifica ONGs</strong>Documentação organizada</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d3">2</div>
+          <div class="step-text"><strong>Indica demandas</strong>Alimenta Captação</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d3">3</div>
+          <div class="step-text"><strong>Agenda institucional</strong>Parlamentares e secretarias</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projetos × Obj4: Hub -->
+    <div class="cell">
+      <div class="steps">
+        <div class="step-node">
+          <div class="step-dot d4">1</div>
+          <div class="step-text"><strong>Nó de Encontro</strong>Eventos na sede</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d4">2</div>
+          <div class="step-text"><strong>iDM em Movimento</strong>Ações externas</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d4">3</div>
+          <div class="step-text"><strong>Conexões</strong>Entre projetos da rede</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projetos × Obj5: Dados -->
+    <div class="cell">
+      <div class="steps">
+        <div class="step-node">
+          <div class="step-dot d5">1</div>
+          <div class="step-text"><strong>Envia indicadores</strong>Dados dos projetos</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d5">2</div>
+          <div class="step-text"><strong>Valida relatórios</strong>Com área de Dados</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ROW: CAPTAÇÃO ===== -->
+    <div class="area-label al-cap">
+      <div class="area-label-inner">
+        <div class="area-name">Captação</div>
+        <div class="area-sub">Recursos e parcerias</div>
+      </div>
+    </div>
+
+    <!-- Captação × Obj1: Prêmio -->
+    <div class="cell">
+      <div class="steps">
+        <div class="step-node">
+          <div class="step-dot d1">1</div>
+          <div class="step-text"><strong>Prospecção</strong>Patrocinadores do prêmio</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d1">2</div>
+          <div class="step-text"><strong>Parceria institucional</strong>Garante ao menos 1</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d1">3</div>
+          <div class="step-text"><strong>Embaixadores</strong>Amplia visibilidade</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Captação × Obj2: Ecossistema -->
+    <div class="cell">
+      <div class="steps">
+        <div class="step-node">
+          <div class="step-dot d2">1</div>
+          <div class="step-text"><strong>Alinha c/ Projetos</strong>Demandas e oportunidades</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d2">2</div>
+          <div class="step-text"><strong>Proposta</strong>Para novos Nós Juntos</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d2">3</div>
+          <div class="step-text"><strong>Investimento</strong>Executa Nós Juntos</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Captação × Obj3 -->
+    <div class="cell">
+      <div class="steps">
+        <div class="step-node">
+          <div class="step-dot d3">1</div>
+          <div class="step-text"><strong>Prospecção</strong>PF, PJ e emendas</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d3">2</div>
+          <div class="step-text"><strong>Proposta e reunião</strong>Negociação</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d3">3</div>
+          <div class="step-text"><strong>Fechamento</strong>Parceria formalizada</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d3">4</div>
+          <div class="step-text"><strong>Demanda p/ Mkt</strong>Campanhas de doação</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d3">5</div>
+          <div class="step-text"><strong>Acompanhamento</strong>Performance e repasse</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Captação × Obj4 -->
+    <div class="cell">
+      <div class="steps">
+        <div class="step-node">
+          <div class="step-dot d4">1</div>
+          <div class="step-text"><strong>Parcerias sede</strong>Espaço e eventos</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d4">2</div>
+          <div class="step-text"><strong>Investidores</strong>Baden Powell / sede</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Captação × Obj5: empty -->
+    <div class="cell empty"><span>—</span></div>
+
+    <!-- ===== ROW: MKT ===== -->
+    <div class="area-label al-mkt">
+      <div class="area-label-inner">
+        <div class="area-name">Mkt &amp; Com.</div>
+        <div class="area-sub">Campanhas · Sites · Conteúdo</div>
+      </div>
+    </div>
+
+    <!-- Mkt × Obj1: Prêmio -->
+    <div class="cell">
+      <div class="steps">
+        <div class="step-node">
+          <div class="step-dot d1">1</div>
+          <div class="step-text"><strong>LP do Prêmio</strong>Criação e publicação</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d1">2</div>
+          <div class="step-text"><strong>Campanhas online</strong>Meta, Google, TikTok</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d1">3</div>
+          <div class="step-text"><strong>Email + WhatsApp</strong>Inscrições abertas</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d1">4</div>
+          <div class="step-text"><strong>Avaliação</strong>Dados p/ Dados</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mkt × Obj2: Ecossistema -->
+    <div class="cell">
+      <div class="steps">
+        <div class="step-node">
+          <div class="step-dot d2">1</div>
+          <div class="step-text"><strong>Conteúdo projetos</strong>Divulgação dos Nós</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d2">2</div>
+          <div class="step-text"><strong>Sites</strong>iDM, Crescer, Hope</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d2">3</div>
+          <div class="step-text"><strong>Campanhas inst.</strong>Seguidores e alcance</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mkt × Obj3: Captação -->
+    <div class="cell">
+      <div class="steps">
+        <div class="step-node">
+          <div class="step-dot d3">1</div>
+          <div class="step-text"><strong>Briefing</strong>Cap. + Projetos</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d3">2</div>
+          <div class="step-text"><strong>Criação da LP</strong>Hope / Crescer / iDM</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d3">3</div>
+          <div class="step-text"><strong>Site no Doare</strong>Página de doação</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d3">4</div>
+          <div class="step-text"><strong>Campanhas online</strong>Meta, Google, TikTok</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d3">5</div>
+          <div class="step-text"><strong>Email + WhatsApp</strong>Nutrição e conversão</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d3">6</div>
+          <div class="step-text"><strong>Avaliação</strong>Métricas e aprendizados</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mkt × Obj4: Hub -->
+    <div class="cell">
+      <div class="steps">
+        <div class="step-node">
+          <div class="step-dot d4">1</div>
+          <div class="step-text"><strong>Campanhas inst.</strong>Posicionamento Hub</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d4">2</div>
+          <div class="step-text"><strong>Seguidores</strong>iDM, Crescer, Hope</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d4">3</div>
+          <div class="step-text"><strong>Divulgação sede</strong>Eventos e ações</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mkt × Obj5: empty -->
+    <div class="cell empty"><span>—</span></div>
+
+    <!-- ===== ROW: DADOS ===== -->
+    <div class="area-label al-dados">
+      <div class="area-label-inner">
+        <div class="area-name">Dados</div>
+        <div class="area-sub">Dashboards · Análises</div>
+      </div>
+    </div>
+
+    <!-- Dados × Obj1: Prêmio -->
+    <div class="cell">
+      <div class="steps">
+        <div class="step-node">
+          <div class="step-dot d1">1</div>
+          <div class="step-text"><strong>Acomp. inscrições</strong>Em tempo real</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d1">2</div>
+          <div class="step-text"><strong>Dashboard Prêmio</strong>Por categoria e origem</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d1">3</div>
+          <div class="step-text"><strong>Relatório final</strong>Impacto e alcance</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dados × Obj2: Ecossistema -->
+    <div class="cell">
+      <div class="steps">
+        <div class="step-node">
+          <div class="step-dot d2">1</div>
+          <div class="step-text"><strong>Recebe indicadores</strong>De Projetos</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d2">2</div>
+          <div class="step-text"><strong>Trata dados</strong>Limpeza e estrutura</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d2">3</div>
+          <div class="step-text"><strong>Mapa ecossistema</strong>939 projetos, 27 mun.</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d2">4</div>
+          <div class="step-text"><strong>Dashboard Nós</strong>KPIs por Nó</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dados × Obj3: Captação -->
+    <div class="cell">
+      <div class="steps">
+        <div class="step-node">
+          <div class="step-dot d3">1</div>
+          <div class="step-text"><strong>Dashboard campanha</strong>Performance Mkt</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d3">2</div>
+          <div class="step-text"><strong>Repasse</strong>Para Captação e Mkt</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dados × Obj4: Hub -->
+    <div class="cell">
+      <div class="steps">
+        <div class="step-node">
+          <div class="step-dot d4">1</div>
+          <div class="step-text"><strong>Dashboard redes</strong>Crescimento seguidores</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d4">2</div>
+          <div class="step-text"><strong>Relatório impacto</strong>Institucional</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dados × Obj5 -->
+    <div class="cell">
+      <div class="steps">
+        <div class="step-node">
+          <div class="step-dot d5">1</div>
+          <div class="step-text"><strong>Pesquisas</strong>Levantamento e análise</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d5">2</div>
+          <div class="step-text"><strong>Trata e organiza</strong>Geocodifica, estrutura</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d5">3</div>
+          <div class="step-text"><strong>Dashboards</strong>Looker Studio</div>
+        </div>
+        <div class="step-node">
+          <div class="step-dot d5">4</div>
+          <div class="step-text"><strong>Compartilha</strong>Todas as áreas</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <div class="footer-brand">iDM</div>
+  <div class="footer-note">Instituto David Miranda · Fluxo estratégico 2026 · Em validação</div>
+</div>
+
+</body>
+</html>
