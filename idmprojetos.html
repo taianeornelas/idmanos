@@ -15,39 +15,30 @@
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;background:var(--offwhite);color:var(--marrom);}
   body{font-family:'DM Sans',sans-serif; line-height:1.5;}
-  .wrap{max-width:1080px;margin:0 auto;padding:56px 28px 80px;}
+  .wrap{max-width:1080px;margin:0 auto;padding:44px 28px 60px;}
   h1,h2,h3{font-family:'League Gothic',sans-serif; font-weight:700; margin:0;}
-  header.top{text-align:center;margin-bottom:48px;}
-  header.top h1{font-size:44px;color:var(--marrom);letter-spacing:0.5px;}
-  header.top p{font-size:16px;font-style:italic;color:var(--terracota);margin-top:10px;}
+  header.top{text-align:center;margin-bottom:32px;}
+  header.top h1{font-size:38px;color:var(--marrom);letter-spacing:0.5px;}
+  header.top p{font-size:15px;font-style:italic;color:var(--terracota);margin-top:8px;}
 
   .logo-badge{position:absolute; top:28px; right:28px; background:var(--marrom); border-radius:8px; padding:10px 16px;}
   .logo-badge img{height:28px; display:block;}
 
-  .intro-grid{display:flex; gap:24px; margin-bottom:56px;}
-  .intro-grid > .intro-card{flex:1 1 0; min-width:0;}
-  @media (max-width:760px){ .intro-grid{flex-direction:column;} }
+  .col-headers{display:flex; margin-bottom:8px;}
+  .col-headers > .col-h{flex:1 1 0; min-width:0; display:flex; align-items:center; gap:8px;}
+  .col-headers .center-gap{width:24px; flex:0 0 24px;}
+  .col-h.left{justify-content:flex-end; text-align:right;}
+  .col-h.right{justify-content:flex-start; text-align:left;}
+  .col-h .icon-circle{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .col-h.left .icon-circle{background:var(--terracota); color:var(--offwhite); order:2;}
+  .col-h.right .icon-circle{background:var(--verde); color:var(--offwhite);}
+  .col-h h2{font-size:19px;}
+  .col-h.left h2{color:var(--terracota);}
+  .col-h.right h2{color:var(--verde);}
 
-  .intro-card{border-radius:16px; padding:24px 26px; }
-  .intro-card.a{background:rgba(196,83,41,0.08); border:1px solid rgba(196,83,41,0.25);}
-  .intro-card.b{background:rgba(46,90,61,0.08); border:1px solid rgba(46,90,61,0.25);}
-  .intro-head{display:flex; align-items:center; gap:10px; margin-bottom:16px;}
-  .intro-head .icon-circle{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .intro-card.a .icon-circle{background:var(--terracota); color:var(--offwhite);}
-  .intro-card.b .icon-circle{background:var(--verde); color:var(--offwhite);}
-  .intro-head h2{font-size:24px;}
-  .intro-card.a h2{color:var(--terracota);}
-  .intro-card.b h2{color:var(--verde);}
-  .fact{display:flex; gap:10px; font-size:14px; padding:7px 0; border-top:1px solid rgba(44,34,30,0.08);}
-  .fact b{flex:0 0 130px;}
-  .fact span{flex:1 1 0;}
-  .fact:first-of-type{border-top:none;}
-  .fact b{font-weight:700; color:var(--marrom); opacity:0.65;}
+  .section-note{font-size:12.5px; color:var(--marrom); opacity:0.55; margin-bottom:22px;}
 
-  .section-title{font-size:26px; margin-bottom:6px;}
-  .section-note{font-size:13px; color:var(--marrom); opacity:0.6; margin-bottom:28px;}
-
-  .crit-row{margin-bottom:26px;}
+  .crit-row{margin-bottom:20px;}
   .crit-head{display:flex; align-items:center; gap:8px; justify-content:center; margin-bottom:10px;}
   .crit-icon{color:var(--marrom); display:flex;}
   .crit-label{font-size:15px; font-weight:700; text-align:center;}
@@ -88,30 +79,17 @@
     <p>Duas formas de viabilizar um projeto no iDM</p>
   </header>
 
-  <div class="intro-grid">
-    <div class="intro-card a">
-      <div class="intro-head">
-        <span class="icon-circle"><svg viewBox="0 0 24 24" width="20" height="20" style="color:#edf0ed"><rect x="4" y="13" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="11.5" y="13" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.7" y="5.5" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
-        <h2>Projeto Próprio</h2>
-      </div>
-      <div class="fact"><b>Como funciona</b><span>Criamos o projeto do zero</span></div>
-      <div class="fact"><b>Dinheiro vem de</b><span>Caixa do iDM</span></div>
-      <div class="fact"><b>Quem trabalha</b><span>Nosso time + novas contratações</span></div>
-      <div class="fact"><b>Como buscamos $</b><span>Corremos atrás depois, via incentivo com empresas privadas e públicas</span></div>
+  <div class="col-headers">
+    <div class="col-h left">
+      <h2>Projeto Próprio</h2>
+      <span class="icon-circle"><svg viewBox="0 0 24 24" width="16" height="16" style="color:#edf0ed"><rect x="4" y="13" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="11.5" y="13" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.7" y="5.5" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
     </div>
-    <div class="intro-card b">
-      <div class="intro-head">
-        <span class="icon-circle"><svg viewBox="0 0 24 24" width="20" height="20" style="color:#edf0ed"><circle cx="8.7" cy="12" r="5.6" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="15.3" cy="12" r="5.6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
-        <h2>Projeto em Parceria</h2>
-      </div>
-      <div class="fact"><b>Como funciona</b><span>iDM entra como proponente de um projeto já existente e curado (prêmio ou outros meios)</span></div>
-      <div class="fact"><b>Dinheiro vem de</b><span>100% público ou de programas de instituições privadas</span></div>
-      <div class="fact"><b>Quem trabalha</b><span>Quem já toca o projeto, sem contratação nova</span></div>
-      <div class="fact"><b>Como buscamos $</b><span>Inscrevemos o projeto já pronto nesses editais/programas</span></div>
+    <div class="center-gap"></div>
+    <div class="col-h right">
+      <span class="icon-circle"><svg viewBox="0 0 24 24" width="16" height="16" style="color:#edf0ed"><circle cx="8.7" cy="12" r="5.6" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="15.3" cy="12" r="5.6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
+      <h2>Projeto em Parceria</h2>
     </div>
   </div>
-
-  <h2 class="section-title">Onde cada modelo se sai melhor</h2>
   <p class="section-note">Barras ilustram a intensidade relativa de cada fator — não são métricas medidas.</p>
 
   
